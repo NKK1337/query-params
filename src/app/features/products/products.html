@@ -1,0 +1,48 @@
+<section class="page">
+  <h2>Products</h2>
+
+  @if (loading()) {
+    <p>Loading...</p>
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else {
+    <div class="grid">
+      @for (product of products(); track product.id) {
+        <a class="card" routerLink="/product" [queryParams]="{ id: product.id }">
+          <img [src]="product.image" [alt]="product.name" />
+          <div class="info">
+            <h3>{{ product.name }}</h3>
+            <p class="desc">{{ product.description }}</p>
+            <div class="row">
+              <span>{{ product.price }}</span>
+              <span>Rate: {{ product.rate }}</span>
+            </div>
+            @if (product.vegeterian) {
+              <span class="badge">Vegetarian</span>
+            }
+          </div>
+        </a>
+      } @empty {
+        <p>No products on this page.</p>
+      }
+    </div>
+
+    <div class="pager">
+      <a
+        routerLink="/products"
+        [queryParams]="{ page: page() - 1 }"
+        [class.disabled]="page() <= 1"
+      >
+        Previous
+      </a>
+      <span>Page {{ page() }}</span>
+      <a
+        routerLink="/products"
+        [queryParams]="{ page: page() + 1 }"
+        [class.disabled]="products().length < take"
+      >
+        Next
+      </a>
+    </div>
+  }
+</section>

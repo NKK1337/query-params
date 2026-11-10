@@ -1,0 +1,42 @@
+<section class="page">
+  <button type="button" class="back" (click)="back()">&larr; Back</button>
+
+  @if (loading()) {
+    <p>Loading...</p>
+  } @else if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else if (product(); as p) {
+    <div class="details">
+      <img [src]="p.image" [alt]="p.name" />
+
+      <div class="text">
+        <h2>{{ p.name }}</h2>
+        @if (p.category) {
+          <p class="category">{{ p.category.name }}</p>
+        }
+        <p>{{ p.description }}</p>
+
+        <ul class="facts">
+          <li>Price: {{ p.price }}</li>
+          <li>Rate: {{ p.rate }}</li>
+          <li>Spiciness: {{ p.spiciness }}</li>
+          <li>{{ p.vegetarian ? 'Vegetarian' : 'Not vegetarian' }}</li>
+        </ul>
+
+        @if (p.ingredients?.length) {
+          <h3>Ingredients</h3>
+          <ul>
+            @for (item of p.ingredients; track $index) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+        }
+
+        @if (p.method) {
+          <h3>Method</h3>
+          <p>{{ p.method }}</p>
+        }
+      </div>
+    </div>
+  }
+</section>
